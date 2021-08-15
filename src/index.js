@@ -4,11 +4,6 @@ import PropTypes from 'prop-types'
 
 import * as CONST from './consts.js'
 
-// const Storage = props => {
-//
-// }
-//
-
 export const Storage = {
 
   setItem: async ({ key, value }) => {
