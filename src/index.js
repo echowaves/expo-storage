@@ -12,29 +12,27 @@ import * as CONST from './consts.js'
 export const Storage = {
 
   setItem: async ({ key, value }) => {
-    const uri = await FileSystem.getContentUriAsync(`${CONST.DOCUMENT_FOLDER}${key}`)
-    return uri
+    const writtenContents = await FileSystem.writeAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`, value)
+    return writtenContents
   },
 
   getItem: async ({ key }) => {
-    await FileSystem.copyAsync({
-      from: key,
-      to: `${CONST.DOCUMENT_FOLDER}${key}`,
-    })
-
-    const uri = null
-    return uri
+    const value = await FileSystem.readAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`)
+    return value
   },
 
   removeItem: async ({ key }) => {
-
+    await FileSystem.deleteAsync(
+      `${CONST.DOCUMENT_FOLDER}${key}`,
+      { idempotent: true } // don't throw an error if there is no file or directory at this URI
+    )
   },
+
   getAllKeys: async () => {
-
+    const keys = await FileSystem.readDirectoryAsync(`${CONST.DOCUMENT_FOLDER}`)
+    return keys
   },
-  clear: async () => {
 
-  },
 }
 
 export default Storage

@@ -45,12 +45,6 @@ To get all keys available in storage:
   await Storage.getAllKeys()  
 ```
 
-To clear all data in storage:
-```JavaScript
-  await Storage.clear()  
-```
-
-
 ## Sample projects
 https://github.com/echowaves/WiSaw
 
