@@ -42,7 +42,7 @@ To delete a record by key:
 
 To get all keys available in storage:
 ```JavaScript
-  await Storage.getAllKeys()  
+  const keys = await Storage.getAllKeys()  
 ```
 
 ## Sample projects
