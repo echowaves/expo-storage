@@ -1,7 +1,5 @@
 import * as FileSystem from 'expo-file-system'
 
-import PropTypes from 'prop-types'
-
 import * as CONST from './consts.js'
 
 export const Storage = {
