@@ -10,8 +10,12 @@ export const Storage = {
   },
 
   getItem: async ({ key }) => {
-    const value = await FileSystem.readAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`)
-    return value
+    try {
+      const value = await FileSystem.readAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`)
+      return value
+    } catch (error) {
+      return null
+    }
   },
 
   removeItem: async ({ key }) => {
