@@ -3,8 +3,10 @@
   "version": "48.0.1",
   "description": "Simple way to store persistent data, which does not have size limitations of react-native async-storage.",
   "main": "lib/index.js",
+  "typings": "./index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "index.d.ts"
   ],
   "scripts": {
     "prepublish": "echo 'prepublishing' && rm -rf ./lib && babel src --out-dir lib && yarn link",
