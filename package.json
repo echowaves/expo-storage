@@ -1,6 +1,6 @@
 {
   "name": "expo-storage",
-  "version": "48.0.1",
+  "version": "48.1.0",
   "description": "Simple way to store persistent data, which does not have size limitations of react-native async-storage.",
   "main": "lib/index.js",
   "typings": "./index.d.ts",
