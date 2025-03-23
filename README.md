@@ -8,8 +8,13 @@ A simple and efficient solution for persistent data storage in Expo/React Native
 - Simple, Promise-based API
 - TypeScript support
 - Persistent storage across app restarts
-- JSON object support through serialization
-- Minimal dependencies
+- JSON object support through automatic serialization
+- Built-in security features
+  - Path traversal prevention
+  - Safe filename validation
+  - Automatic value serialization
+  - Directory existence checks
+  - Comprehensive error handling
 
 ## Requirements
 
@@ -43,47 +48,88 @@ import { Storage } from 'expo-storage'
 #### Store Data
 
 ```javascript
-await Storage.setItem({
-  key: "myKey",
-  value: JSON.stringify(myJsonObject)
-})
+try {
+  await Storage.setItem({
+    key: "myKey",
+    value: myValue // automatically serialized if not a string
+  })
+} catch (error) {
+  // Handle invalid keys or storage failures
+}
 ```
 
 #### Retrieve Data
 
 ```javascript
-const item = await Storage.getItem({ key: "myKey" })
-const parsedItem = JSON.parse(item)
+try {
+  const item = await Storage.getItem({ key: "myKey" })
+  if (item !== null) {
+    const parsedItem = JSON.parse(item)
+  }
+} catch (error) {
+  // Handle invalid keys or read failures
+}
 ```
 
 #### Delete Data
 
 ```javascript
-await Storage.removeItem({ key: "myKey" })
+try {
+  await Storage.removeItem({ key: "myKey" })
+} catch (error) {
+  // Handle invalid keys or deletion failures
+}
 ```
 
 #### List All Keys
 
 ```javascript
-const keys = await Storage.getAllKeys()
+try {
+  const keys = await Storage.getAllKeys()
+} catch (error) {
+  // Handle listing failures
+}
 ```
 
-### Working with Objects
+### Security Features
 
-The storage works with string values only. To store objects or arrays:
+#### Key Validation
+- Keys must be non-empty strings
+- Only alphanumeric characters, hyphens, underscores, and dots are allowed
+- Path traversal attempts are blocked
+- Invalid keys throw errors
 
-1. Serialize when storing:
+#### Value Handling
+- Automatic serialization of non-string values
+- Safe JSON parsing
+- Proper error propagation
+
+#### Storage Directory
+- Automatic creation of storage directory if needed
+- Safe directory operations
+- Path sanitization
+
+### Error Handling
+
+All methods may throw errors for:
+- Invalid keys (non-alphanumeric or potential path traversal)
+- File system operation failures
+- Serialization failures for non-string values
+
+Example error handling:
 ```javascript
-await Storage.setItem({
-  key: "user",
-  value: JSON.stringify({ name: "John", age: 30 })
-})
-```
-
-2. Deserialize when retrieving:
-```javascript
-const userString = await Storage.getItem({ key: "user" })
-const user = userString ? JSON.parse(userString) : null
+try {
+  await Storage.setItem({
+    key: "user-preferences",
+    value: { theme: "dark" }
+  })
+} catch (error) {
+  if (error.message.includes('Invalid storage key')) {
+    // Handle invalid key error
+  } else {
+    // Handle other storage errors
+  }
+}
 ```
 
 ## Storage Location
@@ -92,12 +138,7 @@ Data is stored in the app's document directory using expo-file-system, ensuring:
 - Persistence across app restarts
 - No size limitations
 - Private storage accessible only to your app
-
-## Error Handling
-
-- `getItem` returns `null` if the key doesn't exist
-- `removeItem` is idempotent (won't throw if the key doesn't exist)
-- All methods return Promises and should be used with async/await or .then()
+- Safe file operations
 
 ## Sample Projects
 
