@@ -1,15 +1,17 @@
 import * as FileSystem from 'expo-file-system'
+import * as CONST from './consts'
 
-import * as CONST from './consts.js'
+interface StorageParams {
+  key: string;
+  value?: any;
+}
 
 export const Storage = {
-
-  setItem: async ({ key, value }) => {
-    const writtenContents = await FileSystem.writeAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`, value)
-    return writtenContents
+  setItem: async ({ key, value }: StorageParams): Promise<void> => {
+    await FileSystem.writeAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`, value)
   },
-
-  getItem: async ({ key }) => {
+  
+  getItem: async ({ key }: StorageParams): Promise<string | null> => {
     try {
       const value = await FileSystem.readAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`)
       return value
@@ -17,19 +19,18 @@ export const Storage = {
       return null
     }
   },
-
-  removeItem: async ({ key }) => {
+  
+  removeItem: async ({ key }: StorageParams): Promise<void> => {
     await FileSystem.deleteAsync(
       `${CONST.DOCUMENT_FOLDER}${key}`,
       { idempotent: true } // don't throw an error if there is no file or directory at this URI
     )
   },
-
-  getAllKeys: async () => {
+  
+  getAllKeys: async (): Promise<string[]> => {
     const keys = await FileSystem.readDirectoryAsync(`${CONST.DOCUMENT_FOLDER}`)
     return keys
   },
-
 }
 
 export default Storage

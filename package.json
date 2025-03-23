@@ -3,13 +3,14 @@
   "version": "51.0.8",
   "description": "Simple way to store persistent data, which does not have size limitations of react-native async-storage.",
   "main": "lib/index.js",
-  "typings": "./index.d.ts",
+  "types": "lib/index.d.ts",
+  "typings": "lib/index.d.ts",
   "files": [
-    "lib",
-    "index.d.ts"
+    "lib"
   ],
   "scripts": {
-    "prepublish": "echo 'prepublishing' && rm -rf ./lib && babel src --out-dir lib && yarn link",
+    "build": "tsc",
+    "prepublish": "echo 'prepublishing' && rm -rf ./lib && yarn build && yarn link",
     "test": "rm -rf ./lib && jest"
   },
   "repository": {
@@ -49,7 +50,8 @@
     "eslint-plugin-react-native": "4.1.0",
     "expo": "^52.0.40",
     "jest": "^29.7.0",
-    "metro-react-native-babel-preset": "^0.77.0"
+    "metro-react-native-babel-preset": "^0.77.0",
+    "typescript": "^5.3.3"
   },
   "dependencies": {},
   "peerDependencies": {
