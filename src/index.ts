@@ -1,5 +1,4 @@
-import * as FileSystem from 'expo-file-system'
-import * as CONST from './consts'
+import { File, Paths } from 'expo-file-system'
 
 interface StorageParams {
   key: string;
@@ -30,9 +29,9 @@ const isFileNotFoundError = (error: unknown): boolean => {
 }
 
 const ensureStorageDirectoryExists = async (): Promise<void> => {
-  const dirInfo = await FileSystem.getInfoAsync(CONST.DOCUMENT_FOLDER)
-  if (!dirInfo.exists) {
-    await FileSystem.makeDirectoryAsync(CONST.DOCUMENT_FOLDER, { intermediates: true })
+  const storageDir = Paths.document
+  if (!storageDir.exists) {
+    storageDir.create({ intermediates: true })
   }
 }
 
@@ -45,7 +44,8 @@ export const Storage = {
     const serializedValue = serializeValue(value)
     
     try {
-      await FileSystem.writeAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`, serializedValue)
+      const file = new File(Paths.document, key)
+      file.write(serializedValue)
     } catch (error) {
       throw new Error(`Failed to write to storage: ${getErrorMessage(error)}`)
     }
@@ -57,7 +57,11 @@ export const Storage = {
     }
 
     try {      
-      const value = await FileSystem.readAsStringAsync(`${CONST.DOCUMENT_FOLDER}${key}`)
+      const file = new File(Paths.document, key)
+      if (!file.exists) {
+        return null
+      }
+      const value = await file.text()
       return value
     } catch (error) {
       if (isFileNotFoundError(error)) {
@@ -73,10 +77,10 @@ export const Storage = {
     }
 
     try {
-      await FileSystem.deleteAsync(
-        `${CONST.DOCUMENT_FOLDER}${key}`,
-        { idempotent: true }
-      )
+      const file = new File(Paths.document, key)
+      if (file.exists) {
+        file.delete()
+      }
     } catch (error) {
       throw new Error(`Failed to remove from storage: ${getErrorMessage(error)}`)
     }
@@ -85,8 +89,13 @@ export const Storage = {
   getAllKeys: async (): Promise<string[]> => {
     try {
       await ensureStorageDirectoryExists()
-      const keys = await FileSystem.readDirectoryAsync(CONST.DOCUMENT_FOLDER)
-      return keys.filter(key => isValidKey(key))
+      const storageDir = Paths.document
+      const contents = storageDir.list()
+      const keys = contents
+        .filter(item => item instanceof File)
+        .map(file => file.name)
+        .filter(key => isValidKey(key))
+      return keys
     } catch (error) {
       throw new Error(`Failed to list storage keys: ${getErrorMessage(error)}`)
     }

@@ -18,10 +18,10 @@ A simple and efficient solution for persistent data storage in Expo/React Native
 
 ## Requirements
 
-- Expo SDK 18 or newer
-- React 18.2.0 or newer
-- React Native 0.74.3 or newer
-- expo-file-system
+- Expo SDK 54 or newer
+- React 19.0.0 or newer
+- React Native 0.81.0 or newer
+- expo-file-system 19.0.0 or newer
 
 ## Installation
 
