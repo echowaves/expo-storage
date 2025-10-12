@@ -10,12 +10,12 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepare": "echo 'preparing...' && rm -rf ./lib && npm run build",
-    "test": "rm -rf ./lib && jest",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\""
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf lib",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test": "jest",
+    "lint": "npx ts-standard",
+    "lint:fix": "npx ts-standard --fix"
   },
   "repository": {
     "type": "git",

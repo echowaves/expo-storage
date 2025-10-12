@@ -1,13 +1,13 @@
 import { Directory, File, Paths } from 'expo-file-system'
 
 interface StorageParams {
-  key: string;
-  value?: object;
+  key: string
+  value?: object
 }
 
-function isValidKey(key: string): boolean {
+function isValidKey (key: string): boolean {
   // Prevent path traversal and ensure safe filenames
-  var safeKeyRegex = /^[a-zA-Z0-9-_.]+$/
+  const safeKeyRegex = /^[a-zA-Z0-9-_.]+$/
   return Boolean(key) && safeKeyRegex.test(key)
 }
 
@@ -26,25 +26,24 @@ const serializeValue = (value: object): string => {
   }
 }
 
-function getErrorMessage(error: unknown): string {
+function getErrorMessage (error: unknown): string {
   if (error instanceof Error) return error.message
   return String(error)
 }
 
-function isFileNotFoundError(error: unknown): boolean {
+function isFileNotFoundError (error: unknown): boolean {
   return error instanceof Error && 'code' in error && error.code === 'ENOENT'
 }
 
-function ensureStorageDirectoryExists(): void {
+function ensureStorageDirectoryExists (): void {
   const storageDir = new Directory(Paths.document.uri)
-  if (storageDir.exists === false) {
+  if (!storageDir.exists) {
     storageDir.create({ intermediates: true })
   }
-  return
 }
 
 const Storage = {
-  setItem: function(params: StorageParams): void {
+  setItem: function (params: StorageParams): void {
     if (!isValidKey(params.key)) {
       throw new Error(`Invalid storage key ${params.key}`)
     }
@@ -53,30 +52,29 @@ const Storage = {
     }
     ensureStorageDirectoryExists()
     const serializedValue = serializeValue(params.value)
-    
+
     try {
       const file = new File(Paths.document.uri, params.key)
       if (!(file instanceof File)) {
         throw new Error('Failed to create file instance')
       }
-      (file as File).write(serializedValue)
+      (file).write(serializedValue)
     } catch (error) {
       throw new Error(`Failed to write to storage: ${getErrorMessage(error)}`)
     }
-    return
   },
-  
+
   getItem: async ({ key }: StorageParams): Promise<string | null> => {
     if (!isValidKey(key)) {
       throw new Error('Invalid storage key ' + key)
     }
 
-    try {      
-      var file = new File(Paths.document.uri, key)
+    try {
+      const file = new File(Paths.document.uri, key)
       if (!file.exists) {
         return null
       }
-      var value = await file.text()
+      const value = await file.text()
       return value
     } catch (error) {
       if (isFileNotFoundError(error)) {
@@ -85,14 +83,14 @@ const Storage = {
       throw new Error(`Failed to read from storage: ${getErrorMessage(error)}`)
     }
   },
-  
+
   removeItem: async ({ key }: StorageParams): Promise<void> => {
     if (!isValidKey(key)) {
       throw new Error('Invalid storage key ' + key)
     }
 
     try {
-      var file = new File(Paths.document.uri, key)
+      const file = new File(Paths.document.uri, key)
       if (!(file instanceof File)) {
         throw new Error('Failed to create file instance')
       }
@@ -106,9 +104,9 @@ const Storage = {
   getAllKeys: async (): Promise<string[]> => {
     try {
       ensureStorageDirectoryExists()
-      var storageDir = new Directory(Paths.document.uri)
-      var contents = storageDir.list()
-      var keys = contents
+      const storageDir = new Directory(Paths.document.uri)
+      const contents = storageDir.list()
+      const keys = contents
         .filter(item => item instanceof File)
         .map(file => file.name)
         .filter(key => isValidKey(key))
@@ -116,7 +114,7 @@ const Storage = {
     } catch (error) {
       throw new Error(`Failed to list storage keys: ${getErrorMessage(error)}`)
     }
-  },
+  }
 }
 
 export default Storage
