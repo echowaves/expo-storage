@@ -9,3 +9,4 @@ declare const Storage: {
     getAllKeys: () => Promise<string[]>;
 };
 export default Storage;
+//# sourceMappingURL=index.d.ts.map
