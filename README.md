@@ -1,5 +1,7 @@
 # expo-storage
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/519297b08add48e6b9e4c6323a241289)](https://app.codacy.com/gh/echowaves/expo-storage?utm_source=github.com&utm_medium=referral&utm_content=echowaves/expo-storage&utm_campaign=Badge_Grade)
+
 A simple and efficient solution for persistent data storage in Expo/React Native applications, designed to overcome the size limitations of react-native async-storage by utilizing the expo-file-system.
 
 ## Features
