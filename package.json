@@ -44,9 +44,12 @@
     "eslint-plugin-promise": "6.6.0",
     "jest": "29.7.0",
     "ts-standard": "12.0.2",
-    "typescript": "5.7.2"  
+    "typescript": "5.7.2"
   },
-  "peerDependencies": {    
-    "expo-file-system": "19.0.17"        
+  "dependencies": {
+    "expo-file-system": "^19.0.17"
+  },
+  "peerDependencies": {
+    "expo-file-system": "^19.0.17"
   }
 }
