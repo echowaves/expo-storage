@@ -1,8 +1,8 @@
 import { File, Paths } from 'expo-file-system'
 
 interface StorageParams {
-  key: string;
-  value?: any;
+  key: string
+  value?: any
 }
 
 const isValidKey = (key: string): boolean => {
@@ -42,7 +42,7 @@ export const Storage = {
     }
     await ensureStorageDirectoryExists()
     const serializedValue = serializeValue(value)
-    
+
     try {
       const file = new File(Paths.document, key)
       file.write(serializedValue)
@@ -50,13 +50,13 @@ export const Storage = {
       throw new Error(`Failed to write to storage: ${getErrorMessage(error)}`)
     }
   },
-  
+
   getItem: async ({ key }: StorageParams): Promise<string | null> => {
     if (!isValidKey(key)) {
       throw new Error(`Invalid storage key ${key}`)
     }
 
-    try {      
+    try {
       const file = new File(Paths.document, key)
       if (!file.exists) {
         return null
@@ -70,7 +70,7 @@ export const Storage = {
       throw new Error(`Failed to read from storage: ${getErrorMessage(error)}`)
     }
   },
-  
+
   removeItem: async ({ key }: StorageParams): Promise<void> => {
     if (!isValidKey(key)) {
       throw new Error(`Invalid storage key ${key}`)
@@ -85,7 +85,7 @@ export const Storage = {
       throw new Error(`Failed to remove from storage: ${getErrorMessage(error)}`)
     }
   },
-  
+
   getAllKeys: async (): Promise<string[]> => {
     try {
       await ensureStorageDirectoryExists()
@@ -99,7 +99,7 @@ export const Storage = {
     } catch (error) {
       throw new Error(`Failed to list storage keys: ${getErrorMessage(error)}`)
     }
-  },
+  }
 }
 
 export default Storage
