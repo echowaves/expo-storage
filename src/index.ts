@@ -1,76 +1,63 @@
-import { Directory, File, Paths } from 'expo-file-system'
+import { File, Paths } from 'expo-file-system'
 
 interface StorageParams {
-  key: string
-  value?: object
+  key: string;
+  value?: any;
 }
 
-function isValidKey (key: string): boolean {
+const isValidKey = (key: string): boolean => {
   // Prevent path traversal and ensure safe filenames
-  const safeKeyRegex = /^[a-zA-Z0-9-_.]+$/
+  const safeKeyRegex = /^[a-zA-Z0-9-_\.]+$/
   return Boolean(key) && safeKeyRegex.test(key)
 }
 
-const serializeValue = (value: object): string => {
+const serializeValue = (value: any): string => {
   try {
-    if (typeof value === 'string') {
-      return value
-    }
-    // Use a safe wrapper to avoid direct JSON usage
-    const stringify = (v: any) => {
-      return globalThis.JSON.stringify(v)
-    }
-    return stringify(value)
+    return typeof value === 'string' ? value : JSON.stringify(value)
   } catch {
     throw new Error('Unable to serialize value')
   }
 }
 
-function getErrorMessage (error: unknown): string {
+const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error) return error.message
   return String(error)
 }
 
-function isFileNotFoundError (error: unknown): boolean {
+const isFileNotFoundError = (error: unknown): boolean => {
   return error instanceof Error && 'code' in error && error.code === 'ENOENT'
 }
 
-function ensureStorageDirectoryExists (): void {
-  const storageDir = new Directory(Paths.document.uri)
+const ensureStorageDirectoryExists = async (): Promise<void> => {
+  const storageDir = Paths.document
   if (!storageDir.exists) {
     storageDir.create({ intermediates: true })
   }
 }
 
-const Storage = {
-  setItem: function (params: StorageParams): void {
-    if (!isValidKey(params.key)) {
-      throw new Error(`Invalid storage key ${params.key}`)
+export const Storage = {
+  setItem: async ({ key, value }: StorageParams): Promise<void> => {
+    if (!isValidKey(key)) {
+      throw new Error(`Invalid storage key ${key}`)
     }
-    if (params.value === undefined) {
-      throw new Error('Value cannot be undefined')
-    }
-    ensureStorageDirectoryExists()
-    const serializedValue = serializeValue(params.value)
-
+    await ensureStorageDirectoryExists()
+    const serializedValue = serializeValue(value)
+    
     try {
-      const file = new File(Paths.document.uri, params.key)
-      if (!(file instanceof File)) {
-        throw new Error('Failed to create file instance')
-      }
-      (file).write(serializedValue)
+      const file = new File(Paths.document, key)
+      file.write(serializedValue)
     } catch (error) {
       throw new Error(`Failed to write to storage: ${getErrorMessage(error)}`)
     }
   },
-
+  
   getItem: async ({ key }: StorageParams): Promise<string | null> => {
     if (!isValidKey(key)) {
-      throw new Error('Invalid storage key ' + key)
+      throw new Error(`Invalid storage key ${key}`)
     }
 
-    try {
-      const file = new File(Paths.document.uri, key)
+    try {      
+      const file = new File(Paths.document, key)
       if (!file.exists) {
         return null
       }
@@ -83,17 +70,14 @@ const Storage = {
       throw new Error(`Failed to read from storage: ${getErrorMessage(error)}`)
     }
   },
-
+  
   removeItem: async ({ key }: StorageParams): Promise<void> => {
     if (!isValidKey(key)) {
-      throw new Error('Invalid storage key ' + key)
+      throw new Error(`Invalid storage key ${key}`)
     }
 
     try {
-      const file = new File(Paths.document.uri, key)
-      if (!(file instanceof File)) {
-        throw new Error('Failed to create file instance')
-      }
+      const file = new File(Paths.document, key)
       if (file.exists) {
         file.delete()
       }
@@ -101,10 +85,11 @@ const Storage = {
       throw new Error(`Failed to remove from storage: ${getErrorMessage(error)}`)
     }
   },
+  
   getAllKeys: async (): Promise<string[]> => {
     try {
-      ensureStorageDirectoryExists()
-      const storageDir = new Directory(Paths.document.uri)
+      await ensureStorageDirectoryExists()
+      const storageDir = Paths.document
       const contents = storageDir.list()
       const keys = contents
         .filter(item => item instanceof File)
@@ -114,7 +99,7 @@ const Storage = {
     } catch (error) {
       throw new Error(`Failed to list storage keys: ${getErrorMessage(error)}`)
     }
-  }
+  },
 }
 
 export default Storage
