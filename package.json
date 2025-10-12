@@ -34,7 +34,6 @@
   },
   "homepage": "https://github.com/echowaves/expo-storage#readme",
   "devDependencies": {
-    "expo-file-system": "^19.0.0",
     "@babel/cli": "^7.28.3",
     "@babel/core": "^7.28.4",
     "@babel/eslint-parser": "^7.25.9",
@@ -62,7 +61,6 @@
     "prettier": "3.4.2",
     "typescript": "5.9.2"
   },
-  "dependencies": {},
   "peerDependencies": {
     "expo-file-system": ">=19.0.0",
     "react": ">=19.0.0",
