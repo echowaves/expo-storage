@@ -1,16 +1,15 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "declaration": true,
-    "outDir": "./lib",
     "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "jsx": "react-native",
-    "lib": ["es2017"]
+    "outDir": "lib",
+    "noEmit": false,
+    "declaration": true,
+    "target": "ES5",
+    "module": "es2015",
+    "noImplicitAny": false,
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]  
 }

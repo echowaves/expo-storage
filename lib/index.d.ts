@@ -1,9 +1,9 @@
 interface StorageParams {
     key: string;
-    value?: any;
+    value?: object;
 }
-export declare const Storage: {
-    setItem: ({ key, value }: StorageParams) => Promise<void>;
+declare const Storage: {
+    setItem: (params: StorageParams) => void;
     getItem: ({ key }: StorageParams) => Promise<string | null>;
     removeItem: ({ key }: StorageParams) => Promise<void>;
     getAllKeys: () => Promise<string[]>;
