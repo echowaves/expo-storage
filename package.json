@@ -1,6 +1,6 @@
 {
   "name": "expo-storage",
-  "version": "54.0.5",
+  "version": "54.0.6",
   "description": "Simple way to store persistent data, which does not have size limitations of react-native async-storage.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/echowaves/expo-storage#readme",
   "devDependencies": {
-    "expo-file-system": "^19.0.17",
+    "expo-file-system": "19.0.17",
     "@babel/core": "^7.28.4",
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-typescript": "^7.27.1",

@@ -151,3 +151,5 @@ MIT License - See LICENSE file for details
 ## Contributing
 
 Issues and pull requests are welcome at the [GitHub repository](https://github.com/echowaves/expo-storage).
+
+<a href="https://app.codacy.com/gh/echowaves/expo-storage/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/d2ae6874e2954c0fbfaca3591bbd7e0c"/></a>
