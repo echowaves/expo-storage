@@ -31,7 +31,7 @@ const isFileNotFoundError = (error: unknown): boolean => {
 const ensureStorageDirectoryExists = async (): Promise<void> => {
   const storageDir = Paths.document
   if (!storageDir.exists) {
-    storageDir.create({ intermediates: true })
+    await storageDir.create({ intermediates: true })
   }
 }
 
@@ -45,7 +45,7 @@ export const Storage = {
 
     try {
       const file = new File(Paths.document, key)
-      file.write(serializedValue)
+      await file.write(serializedValue)
     } catch (error) {
       throw new Error(`Failed to write to storage: ${getErrorMessage(error)}`)
     }
@@ -79,7 +79,7 @@ export const Storage = {
     try {
       const file = new File(Paths.document, key)
       if (file.exists) {
-        file.delete()
+        await file.delete()
       }
     } catch (error) {
       throw new Error(`Failed to remove from storage: ${getErrorMessage(error)}`)
@@ -90,7 +90,7 @@ export const Storage = {
     try {
       await ensureStorageDirectoryExists()
       const storageDir = Paths.document
-      const contents = storageDir.list()
+      const contents = await storageDir.list()
       const keys = contents
         .filter(item => item instanceof File)
         .map(file => file.name)
