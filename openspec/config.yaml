@@ -1,20 +1,14 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
-
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+context: |
+  Project: expo-storage
+  Description: A simple persistent storage library for React Native / Expo apps, without the size limitations of AsyncStorage.
+  Tech stack: TypeScript, Expo, React Native
+  Build: tsc (output to lib/)
+  Linting: ts-standard
+  Testing: Jest
+  Package manager: npm
+  Peer dependency: expo-file-system (>=19, <20)
+  Repository: github.com/echowaves/expo-storage
+  License: MIT
+  The library exposes a single `Storage` object with setItem, getItem, removeItem, and getAllKeys methods that use expo-file-system's File and Paths APIs to persist data to the document directory.
