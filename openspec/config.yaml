@@ -7,8 +7,9 @@ context: |
   Build: tsc (output to lib/)
   Linting: ts-standard
   Testing: Jest
-  Package manager: npm
   Peer dependency: expo-file-system (>=19, <20)
   Repository: github.com/echowaves/expo-storage
   License: MIT
   The library exposes a single `Storage` object with setItem, getItem, removeItem, and getAllKeys methods that use expo-file-system's File and Paths APIs to persist data to the document directory.
+  Dependencies: Always use exact versions in package.json (no ^ or ~ prefixes)
+  Package manager: npm
