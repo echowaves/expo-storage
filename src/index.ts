@@ -7,7 +7,7 @@ interface StorageParams {
 
 const isValidKey = (key: string): boolean => {
   // Prevent path traversal and ensure safe filenames
-  const safeKeyRegex = /^[a-zA-Z0-9-_\.]+$/
+  const safeKeyRegex = /^[a-zA-Z0-9\-_.]+$/
   return Boolean(key) && safeKeyRegex.test(key)
 }
 
