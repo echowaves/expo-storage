@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "lib": ["ES2018"],
+    "lib": [
+      "ES2018"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,6 +22,13 @@
     "rootDir": "./src",
     "jsx": "react-native"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "lib", "**/*.test.ts", "**/*.test.tsx"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }
