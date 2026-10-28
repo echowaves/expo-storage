@@ -18,10 +18,16 @@ A simple and efficient solution for persistent data storage in Expo/React Native
 
 ## Requirements
 
-- Expo SDK 54 or newer
-- React 19.0.0 or newer
-- React Native 0.81.0 or newer
-- expo-file-system 19.0.0 or newer
+Compatible with Expo SDK 55 through 58. The declared peer ranges are:
+
+- `expo` >=53.0.0 <59.0.0
+- `expo-file-system` >=53.0.0 <59.0.0
+- React >=16.8.0 <20.0.0
+- React Native >=0.60.0 <1.0.0
+
+SDK 53 and 54 ship `expo-file-system` 18.x / 19.x, which is outside that range, so the effective floor is SDK 55 — the earliest SDK whose `expo-file-system` satisfies it. Your Expo SDK also fixes the React and React Native versions (SDK 55 pairs React 19.2.0 with React Native 0.83.4; SDK 58 pairs React 19.3.0 with React Native 0.88.1).
+
+The major version of `expo-storage` tracks the Expo SDK it was built against: `58.x` is built and tested against Expo SDK 58 (`expo-file-system` 58.0.13). Install the major for your SDK line — `55.x` for SDK 55, `57.x` for SDK 57, `58.x` for SDK 58; there is no `56.x` release.
 
 ## Installation
 
